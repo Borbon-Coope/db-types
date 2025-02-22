@@ -71,6 +71,14 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Borbon-Coope/db-types.git
 
+      - name: Eliminar tag si ya existe
+        run: |
+          git fetch --tags
+          if git rev-parse $NEW_VERSION >/dev/null 2>&1; then
+            git push --delete origin $NEW_VERSION
+            git tag -d $NEW_VERSION
+          fi
+
       - name: Crear y subir nuevo tag
         run: |
           git tag $NEW_VERSION
