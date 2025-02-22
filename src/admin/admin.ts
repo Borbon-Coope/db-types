@@ -3,7 +3,7 @@ import {UserStatus} from '../other/shared';
 /**
  * Tipo de usuario adminsitrador
  */
-export type AdminRole = 'Full' | 'Other';
+export type AdminRole = 'Full' | 'Other'; 
 
 /**
  * Representa un usuario administrador del sistema
