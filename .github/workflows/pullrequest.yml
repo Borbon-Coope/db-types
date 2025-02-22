@@ -1,0 +1,35 @@
+name: Pull Request
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  construir:
+    name: Verificar PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configurar Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache de NPM
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Instalar Dependencias
+        run: npm install
+
+      - name: Limpiar lib
+        run: |
+          rm -Rf lib
+
+      - name: Crear Build
+        run: npm run ci

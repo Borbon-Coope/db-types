@@ -1,0 +1,77 @@
+name: Construir Interfaces Base de Datos
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  construir:
+    name: Construir Interfaces
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configurar Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache de NPM
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Instalar Dependencias
+        run: npm install
+
+      - name: Limpiar lib
+        run: rm -Rf lib
+
+      - name: Crear Build
+        run: npm run ci
+
+  creartag:
+    name: Crear Tag
+    needs: construir
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v2
+
+      - name: Obtener el último tag
+        id: get_version
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0 || echo "CoopeTypes1.0.0")
+          echo "Última versión encontrada: $latest_tag"
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
+
+      - name: Generar nueva versión
+        id: bump_version
+        run: |
+          latest_version="${LATEST_TAG//CoopeTypes/}"
+          IFS='.' read -r -a version_parts <<< "$latest_version"
+          major=${version_parts[0]}
+          minor=${version_parts[1]}
+          patch=${version_parts[2]}
+
+          new_patch=$((patch + 1))
+          new_version="CoopeTypes$major.$minor.$new_patch"
+
+          echo "Nueva versión: $new_version"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+      - name: Configurar credenciales de Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Cooperativa-Borbon/db-types.git
+
+      - name: Crear y subir nuevo tag
+        run: |
+          git tag $NEW_VERSION
+          git push origin $NEW_VERSION
