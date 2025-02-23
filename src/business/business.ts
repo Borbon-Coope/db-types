@@ -11,6 +11,7 @@ export interface BusinessContact {
 
   /** url del contacto */
   contactUrl: string;
+   
 }
 
 /**
