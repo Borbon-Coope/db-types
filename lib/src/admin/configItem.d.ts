@@ -18,6 +18,8 @@ export interface ConfigItem {
     sinpeData: SinpeData;
     /** valor real del monto que se cobra por kilómetro */
     kilometerPrice: number;
+    /** valor real del monto que se cobra por kilómetro */
+    comisionPercentage: number;
 }
 /**
  * Representa la información de sinpe móvil donde el usuario puede realizar el pago
