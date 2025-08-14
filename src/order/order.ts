@@ -29,6 +29,12 @@ export type OrderStatus =
   | 'AcceptedByBiker'
   | 'Canceled';
 
+export type SubOrderStatus =
+  | 'Pending'
+  | 'Processing' 
+  | 'Rejected'
+  | 'Finished';
+
 /** Status de la Orden en español */
 export const statusInSpanish = new Map([
   ['Pending', 'Pendiente'],
@@ -45,13 +51,15 @@ export const statusInSpanish = new Map([
 ]);
 
 /** Metodos de pago */
-export type PaymentMethod = 'SINPE' | 'Cash';
+export type PaymentMethod = 'SINPE' | 'Cash' | 'Card';
 
 /** Métodos de pago en español */
 export const paymentMethodInSpanish = new Map([
   ['SINPE', 'SINPE'],
-  ['Cash', 'Efectivo']
+  ['Cash', 'Efectivo'], 
+  ['Card', 'Tarjeta']
 ]);
+
 
 /**
  * Representa un item dentro de una orden.  La informacion se copia de la
@@ -67,7 +75,32 @@ export interface OrderItem {
   cost: number;
   /** notas para el producto dentro de la orden */
   notes: string;
+  /** cantidad del producto */
+  quantity: number;
 }
+
+export interface SubOrder {
+  /** Firebase User Id del negocio (de firebase auth) */
+  businessId: string;
+  /** Status de la  sub-orden - ver {@link SubOrderStatus} */
+  status: SubOrderStatus;
+
+  /** lista de items en la orden - ver {@link OrderItem} */
+  items: OrderItem[];
+
+  /** Costo total de la orden */
+  totalSubCost: number;
+
+  /** Costo de los items de la orden (sin envio) */
+  itemsSubCost: number;
+
+  /** Comisión de la cooperativa */
+  serviceSubCost: number; 
+
+  dateCreated: number;
+  dateFinished: number; 
+}
+
 
 /**
  * Representa una orden dentro del sistema
