@@ -64,22 +64,22 @@ export interface Order {
     chat?: Message[];
     /** Firebase User Id del usuario (de firebase auth) */
     customerId: string;
-    /** Firebase User Id del negocio (de firebase auth) */
-    businessId: string;
     /** Firebase User Id del biker (de firebase auth) */
     bikerId: string;
     /** Status de la orden - ver {@link OrderStatus} */
     status: OrderStatus;
     /** Metodo de pago de la orden - ver {@link PaymentMethod} */
     methodOfPayment: PaymentMethod;
-    /** lista de items en la orden - ver {@link OrderItem} */
-    items: OrderItem[];
+    /** lista de subordenes - ver {@link SubOrder} */
+    suborders: SubOrder[];
     /** Costo total de la orden */
     totalCost: number;
     /** Costo de los items de la orden (sin envio) */
     itemsCost: number;
     /** Costo del envio */
     serviceCost: number;
+    /** Comisión de la cooperativa */
+    serviceSubCost: number;
     /** Propina para el ciclista */
     tip: number;
     /** Direccion de entrega de la orden */

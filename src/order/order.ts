@@ -112,9 +112,6 @@ export interface Order {
   /** Firebase User Id del usuario (de firebase auth) */
   customerId: string;
 
-  /** Firebase User Id del negocio (de firebase auth) */
-  businessId: string;
-
   /** Firebase User Id del biker (de firebase auth) */
   bikerId: string;
 
@@ -124,8 +121,8 @@ export interface Order {
   /** Metodo de pago de la orden - ver {@link PaymentMethod} */
   methodOfPayment: PaymentMethod;
 
-  /** lista de items en la orden - ver {@link OrderItem} */
-  items: OrderItem[];
+    /** lista de subordenes - ver {@link SubOrder} */
+  suborders: SubOrder[];
 
   /** Costo total de la orden */
   totalCost: number;
@@ -135,6 +132,9 @@ export interface Order {
 
   /** Costo del envio */
   serviceCost: number;
+
+  /** Comisión de la cooperativa */
+  serviceSubCost: number; 
 
   /** Propina para el ciclista */
   tip: number;
