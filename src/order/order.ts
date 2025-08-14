@@ -60,6 +60,7 @@ export const paymentMethodInSpanish = new Map([
   ['Card', 'Tarjeta']
 ]);
 
+
 /**
  * Representa un item dentro de una orden.  La informacion se copia de la
  * coleccion de productos.  Si el producto es borrado, este item persiste
@@ -99,6 +100,7 @@ export interface SubOrder {
   dateCreated: number;
   dateFinished: number; 
 }
+
 
 /**
  * Representa una orden dentro del sistema
