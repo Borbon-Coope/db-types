@@ -4,7 +4,7 @@ import { Message} from "./chat";
 
 /**
  * Status de la Orden
- * Pending: orden creada por el usuario final, a la espera de que RIDE asigne un costo de envío Y confirmar que el negocio puede hacerse cargo del pedido
+ * Pending: orden creada por el usuario final, a la espera de que asigne un costo de envío Y confirmar que los negocios puedan hacerse cargo del pedido
  * AcceptedByClient: cliente acepta las condiciones y costo del envío, el negocio todavía necesita aprobar que puede encargarse de la orden.
  * Processing: el usuario final aceptó el precio de envío Y el negocio se encuentra preparando el pedido.  Todavía no se le ha entregado el pedido al ciclista.
  * AssignedToBiker: orden asignada a ciclista, pero todavía no la ha retirado del negocio
@@ -29,6 +29,12 @@ export type OrderStatus =
   | 'AcceptedByBiker'
   | 'Canceled';
 
+export type SubOrderStatus =
+  | 'Pending'
+  | 'Processing' 
+  | 'Rejected'
+  | 'Finished';
+
 /** Status de la Orden en español */
 export const statusInSpanish = new Map([
   ['Pending', 'Pendiente'],
@@ -45,12 +51,13 @@ export const statusInSpanish = new Map([
 ]);
 
 /** Metodos de pago */
-export type PaymentMethod = 'SINPE' | 'Cash';
+export type PaymentMethod = 'SINPE' | 'Cash' | 'Card';
 
 /** Métodos de pago en español */
 export const paymentMethodInSpanish = new Map([
   ['SINPE', 'SINPE'],
-  ['Cash', 'Efectivo']
+  ['Cash', 'Efectivo'], 
+  ['Card', 'Tarjeta']
 ]);
 
 /**
@@ -67,6 +74,30 @@ export interface OrderItem {
   cost: number;
   /** notas para el producto dentro de la orden */
   notes: string;
+  /** cantidad del producto */
+  quantity: number;
+}
+
+export interface SubOrder {
+  /** Firebase User Id del negocio (de firebase auth) */
+  businessId: string;
+  /** Status de la  sub-orden - ver {@link SubOrderStatus} */
+  status: SubOrderStatus;
+
+  /** lista de items en la orden - ver {@link OrderItem} */
+  items: OrderItem[];
+
+  /** Costo total de la orden */
+  totalSubCost: number;
+
+  /** Costo de los items de la orden (sin envio) */
+  itemsSubCost: number;
+
+  /** Comisión de la cooperativa */
+  serviceSubCost: number; 
+
+  dateCreated: number;
+  dateFinished: number; 
 }
 
 /**
@@ -79,9 +110,6 @@ export interface Order {
   /** Firebase User Id del usuario (de firebase auth) */
   customerId: string;
 
-  /** Firebase User Id del negocio (de firebase auth) */
-  businessId: string;
-
   /** Firebase User Id del biker (de firebase auth) */
   bikerId: string;
 
@@ -91,8 +119,8 @@ export interface Order {
   /** Metodo de pago de la orden - ver {@link PaymentMethod} */
   methodOfPayment: PaymentMethod;
 
-  /** lista de items en la orden - ver {@link OrderItem} */
-  items: OrderItem[];
+    /** lista de subordenes - ver {@link SubOrder} */
+  suborders: SubOrder[];
 
   /** Costo total de la orden */
   totalCost: number;
@@ -102,6 +130,9 @@ export interface Order {
 
   /** Costo del envio */
   serviceCost: number;
+
+  /** Comisión de la cooperativa */
+  serviceSubCost: number; 
 
   /** Propina para el ciclista */
   tip: number;
