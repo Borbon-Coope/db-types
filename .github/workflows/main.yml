@@ -3,7 +3,7 @@ name: Construir Interfaces Base de Datos
 on:
   push:
     branches:
-      - main1
+      - main
 
 jobs: 
   construir:
