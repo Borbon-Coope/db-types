@@ -11,29 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Configurar Node
-        uses: actions/setup-node@v2
+      - name: Configurar Node (LTS)
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 20
+          cache: 'npm'             # cachea ~/.npm, NO node_modules
 
-      - name: Cache de NPM
-        uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Instalar dependencias (limpio)
+        run: npm ci
 
-      - name: Instalar Dependencias
-        run: npm install
+      - name: Ver versiones (debug)
+        run: |
+          node -v
+          npx tsc -v || true
+          npm ls typescript @types/node || true
 
       - name: Limpiar lib
-        run: rm -Rf lib
+        run: rm -rf lib
 
       - name: Crear Build
-        run: npm run ci
+        run: npm run ci   # o tu comando real de build (p.ej. npm run build)
 
   creartag:
     name: Crear Tag
@@ -41,7 +40,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Código
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # para ver tags existentes
 
       - name: Obtener el último tag
         id: get_version
@@ -58,10 +59,8 @@ jobs:
           major=${version_parts[0]}
           minor=${version_parts[1]}
           patch=${version_parts[2]}
-
           new_patch=$((patch + 1))
           new_version="CoopeTypes$major.$minor.$new_patch"
-
           echo "Nueva versión: $new_version"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
@@ -75,8 +74,8 @@ jobs:
         run: |
           git fetch --tags
           if git rev-parse $NEW_VERSION >/dev/null 2>&1; then
-            git push --delete origin $NEW_VERSION
-            git tag -d $NEW_VERSION
+            git push --delete origin $NEW_VERSION || true
+            git tag -d $NEW_VERSION || true
           fi
 
       - name: Crear y subir nuevo tag

@@ -3,7 +3,7 @@ import { Rating } from '../..';
 import { Message } from "./chat";
 /**
  * Status de la Orden
- * Pending: orden creada por el usuario final, a la espera de que RIDE asigne un costo de envío Y confirmar que el negocio puede hacerse cargo del pedido
+ * Pending: orden creada por el usuario final, a la espera de que asigne un costo de envío Y confirmar que los negocios puedan hacerse cargo del pedido
  * AcceptedByClient: cliente acepta las condiciones y costo del envío, el negocio todavía necesita aprobar que puede encargarse de la orden.
  * Processing: el usuario final aceptó el precio de envío Y el negocio se encuentra preparando el pedido.  Todavía no se le ha entregado el pedido al ciclista.
  * AssignedToBiker: orden asignada a ciclista, pero todavía no la ha retirado del negocio
