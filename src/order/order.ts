@@ -82,6 +82,9 @@ export interface OrderItem {
 export interface SubOrder {
   /** Firebase User Id del negocio (de firebase auth) */
   businessId: string;
+
+  businessName: string;
+  
   /** Status de la  sub-orden - ver {@link SubOrderStatus} */
   status: SubOrderStatus;
 
@@ -112,8 +115,12 @@ export interface Order {
   /** Firebase User Id del usuario (de firebase auth) */
   customerId: string;
 
+  customerName: string;
+
   /** Firebase User Id del biker (de firebase auth) */
   bikerId: string;
+
+  bikerName: string;
 
   /** Status de la orden - ver {@link OrderStatus} */
   status: OrderStatus;
