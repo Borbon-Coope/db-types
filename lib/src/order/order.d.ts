@@ -46,7 +46,7 @@ export interface Route {
  * Representa una orden dentro del sistema
  */
 export interface Order {
-    addressDetails: string;
+    addressDetail: string;
     /** Firebase User Id del biker (de firebase auth) */
     bikerId: string;
     bikerName: string;
