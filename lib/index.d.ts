@@ -2,7 +2,7 @@ export { AdminRole, AdminUser } from './src/admin/admin';
 export { Biker, BikerStatus } from './src/biker/biker';
 export { Business, BusinessContact, BusinessContactType } from './src/business/business';
 export { Customer } from './src/customer/customer';
-export { Order, OrderItem, OrderStatus, PaymentMethod, statusInSpanish, paymentMethodInSpanish } from './src/order/order';
+export { Order, OrderItem, Route, Location, OrderStatus, PaymentMethod, statusInSpanish, paymentMethodInSpanish } from './src/order/order';
 export { Rating } from './src/rating/rating';
 export { AverageRating } from './src/rating/averageRating';
 export { DeliveryAvailable } from './src/other/deliveryAvailable';

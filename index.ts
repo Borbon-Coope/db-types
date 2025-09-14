@@ -9,6 +9,8 @@ export {Customer} from './src/customer/customer';
 export {
   Order,
   OrderItem,
+  Route,
+  Location,
   OrderStatus,
   PaymentMethod,
   statusInSpanish,
