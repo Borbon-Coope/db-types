@@ -1,7 +1,5 @@
 /**
  * Status de la Orden
- * Pending: orden creada por el usuario final, a la espera de que asigne un costo de envío Y confirmar que los negocios puedan hacerse cargo del pedido
- * AcceptedByClient: cliente acepta las condiciones y costo del envío, el negocio todavía necesita aprobar que puede encargarse de la orden.
  * Processing: el usuario final aceptó el precio de envío Y el negocio se encuentra preparando el pedido.  Todavía no se le ha entregado el pedido al ciclista.
  * AssignedToBiker: orden asignada a ciclista, pero todavía no la ha retirado del negocio
  * InTransit: el ciclista retiró el pedido y se dispone a ir a dejarlo
@@ -14,7 +12,6 @@
  * */
 export type OrderStatus =
   | 'Pending'
-  | 'AcceptedByClient'
   | 'Processing'
   | 'AssignedToBiker'
   | 'InTransit'
@@ -28,7 +25,6 @@ export type OrderStatus =
 /** Status de la Orden en español */
 export const statusInSpanish = new Map([
   ['Pending', 'Pendiente'],
-  ['AcceptedByClient', 'Aceptado por el cliente'],
   ['Processing', 'Procesando'],
   ['AssignedToBiker', 'Asignado a un repartidor'],
   ['InTransit', 'En tránsito'],
