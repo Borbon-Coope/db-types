@@ -97,7 +97,7 @@ export interface Order {
   customerName: string;
 
   /** lista de item - ver {@link OrderItem} */
-  item: OrderItem[];
+  items: OrderItem[];
 
   itemsCost: number;
 

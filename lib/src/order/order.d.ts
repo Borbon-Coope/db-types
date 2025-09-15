@@ -56,7 +56,7 @@ export interface Order {
     customerId: string;
     customerName: string;
     /** lista de item - ver {@link OrderItem} */
-    item: OrderItem[];
+    items: OrderItem[];
     itemsCost: number;
     /** Metodo de pago de la orden - ver {@link PaymentMethod} */
     methodOfPayment: PaymentMethod;
